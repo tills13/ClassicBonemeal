@@ -148,8 +148,14 @@ public class Utils {
 	 * returns the block at the north west corner
 	 */
 	public static Block getNorthWestBlock(Block b1, Block b2, Block b3, Block b4) {
-		Block grow_location = b1.getRelative(BlockFace.NORTH).equals(b2) ? b2 : b1.getRelative(BlockFace.NORTH).equals(b3) ? b3 : b1.getRelative(BlockFace.NORTH).equals(b4) ? b4 : b1;
-		grow_location = grow_location.getRelative(BlockFace.WEST).equals(b2) ? b2 : grow_location.getRelative(BlockFace.WEST).equals(b3) ? b3 : grow_location.getRelative(BlockFace.WEST).equals(b4) ? b4 : grow_location;
+		Block grow_location = b1.getRelative(BlockFace.NORTH).equals(b2) ? b2 
+							: b1.getRelative(BlockFace.NORTH).equals(b3) ? b3 
+							: b1.getRelative(BlockFace.NORTH).equals(b4) ? b4 
+							: b1;
+		grow_location = grow_location.getRelative(BlockFace.WEST).equals(b2) ? b2 
+					  : grow_location.getRelative(BlockFace.WEST).equals(b3) ? b3 
+					  : grow_location.getRelative(BlockFace.WEST).equals(b4) ? b4 
+					  : grow_location;
 
 		return grow_location;
 	}
@@ -164,12 +170,16 @@ public class Utils {
 		World world = block.getWorld();
 		BlockFace faces[] = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
 
-		for (BlockFace face : faces) if (block.getRelative(face).getType().equals(block.getType().equals(Material.PUMPKIN_STEM) ? Material.PUMPKIN : Material.MELON_BLOCK)) return false;	
+		Material block_type = block.getType().equals(Material.PUMPKIN_STEM) ? Material.PUMPKIN : Material.MELON_BLOCK;
+		for (BlockFace face : faces) if (block.getRelative(face).getType().equals(block_type)) return false;	
 		for (BlockFace face : faces) {
 			Block mblock = block.getRelative(face);
 
 			if (mblock.getType().equals(Material.AIR)) {
-				if (!(mblock.getRelative(BlockFace.DOWN).getType().equals(Material.DIRT) || (mblock.getRelative(BlockFace.DOWN).getType().equals(Material.SOIL)) || (mblock.getRelative(BlockFace.DOWN).getType().equals(Material.GRASS)))) continue;
+				if (!(mblock.getRelative(BlockFace.DOWN).getType().equals(Material.DIRT) 
+				  || (mblock.getRelative(BlockFace.DOWN).getType().equals(Material.SOIL)) 
+				  || (mblock.getRelative(BlockFace.DOWN).getType().equals(Material.GRASS)))) continue;
+					
 				mblock.setType((block.getType().equals(Material.PUMPKIN_STEM) ? Material.PUMPKIN : Material.MELON_BLOCK));
 				return true;
 			}

@@ -33,10 +33,14 @@ public class EventListener implements Listener {
 		boolean used = false; 
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (e.getItem().getData().getData() == 15) {
-				if (clickedBlock.getType().equals(Material.CROPS) || clickedBlock.getType().equals(Material.POTATO) || clickedBlock.getType().equals(Material.CARROT) || clickedBlock.getType().equals(Material.NETHER_WARTS)) used = Utils.growCrop(clickedBlock);
+				if (clickedBlock.getType().equals(Material.CROPS) 
+				 || clickedBlock.getType().equals(Material.POTATO) 
+				 || clickedBlock.getType().equals(Material.CARROT) 
+				 || clickedBlock.getType().equals(Material.NETHER_WARTS)) used = Utils.growCrop(clickedBlock);
 				else if (clickedBlock.getType().equals(Material.SAPLING)) used = Utils.growTree(clickedBlock);
-				else if (clickedBlock.getType().equals(Material.PUMPKIN_STEM) || (clickedBlock.getType().equals(Material.MELON_STEM)) || (clickedBlock.getType().equals(Material.COCOA))) used = Utils.growFromStem(clickedBlock);	
-				//else if (clickedBlock.getType().equals(Material.SUGAR_CANE_BLOCK)) used = true;
+				else if (clickedBlock.getType().equals(Material.PUMPKIN_STEM) 
+					 || (clickedBlock.getType().equals(Material.MELON_STEM)) 
+					 || (clickedBlock.getType().equals(Material.COCOA))) used = Utils.growFromStem(clickedBlock);	
 				e.setCancelled(true);
 			}
 		}
@@ -56,10 +60,14 @@ public class EventListener implements Listener {
 		Block relative = e.getBlock().getRelative(((Dispenser) e.getBlock().getState().getData()).getFacing());
 
 		if (e.getItem().getData().getData() == 15) {
-			if (relative.getType().equals(Material.CROPS) || relative.getType().equals(Material.POTATO) || relative.getType().equals(Material.CARROT) || relative.getType().equals(Material.NETHER_WARTS)) Utils.growCrop(relative);
+			if (relative.getType().equals(Material.CROPS) 
+			 || relative.getType().equals(Material.POTATO) 
+			 || relative.getType().equals(Material.CARROT) 
+			 || relative.getType().equals(Material.NETHER_WARTS)) Utils.growCrop(relative);
 			else if (relative.getType().equals(Material.SAPLING)) Utils.growTree(relative);
-			else if (relative.getType().equals(Material.PUMPKIN_STEM) || (relative.getType().equals(Material.MELON_STEM)) || (relative.getType().equals(Material.COCOA))) Utils.growFromStem(relative);
-			//else if (relative.getType().equals(Material.SUGAR_CANE_BLOCK))
+			else if (relative.getType().equals(Material.PUMPKIN_STEM) 
+				 || (relative.getType().equals(Material.MELON_STEM)) 
+				 || (relative.getType().equals(Material.COCOA))) Utils.growFromStem(relative);
 		}
 	}
 }

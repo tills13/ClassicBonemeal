@@ -31,16 +31,19 @@ public class EventListener implements Listener {
 
 		Block clickedBlock = e.getClickedBlock();
 		boolean used = false; 
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-			if (e.getItem().getData().getData() == 15) {
-				if (clickedBlock.getType().equals(Material.CROPS) 
+		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && (!plugin.uses_permissions || e.getPlayer().hasPermission("classicbonemeal.use"))) {
+			if (e.getItem().getType().equals(Material.INK_SACK) && e.getItem().getData().getData() == 15) {
+			
+				if (clickedBlock.getType().equals(Material.CROPS) // wheat
 				 || clickedBlock.getType().equals(Material.POTATO) 
 				 || clickedBlock.getType().equals(Material.CARROT) 
 				 || clickedBlock.getType().equals(Material.NETHER_WARTS)) used = Utils.growCrop(clickedBlock);
 				else if (clickedBlock.getType().equals(Material.SAPLING)) used = Utils.growTree(clickedBlock);
 				else if (clickedBlock.getType().equals(Material.PUMPKIN_STEM) 
 					 || (clickedBlock.getType().equals(Material.MELON_STEM)) 
-					 || (clickedBlock.getType().equals(Material.COCOA))) used = Utils.growFromStem(clickedBlock);	
+					 || (clickedBlock.getType().equals(Material.COCOA))) used = Utils.growFromStem(clickedBlock);
+				else return;	
+			
 				e.setCancelled(true);
 			}
 		}
@@ -54,12 +57,12 @@ public class EventListener implements Listener {
 	}
 
 	@EventHandler
-	public void onBlockDispenseEvent(BlockDispenseEvent e) {
+	public void onBlockDispense(BlockDispenseEvent e) {
 		if (e.getBlock() == null || e.getItem() == null) return;
 		
 		Block relative = e.getBlock().getRelative(((Dispenser) e.getBlock().getState().getData()).getFacing());
 
-		if (e.getItem().getData().getData() == 15) {
+		if (e.getItem().getType().equals(Material.INK_SACK) && e.getItem().getData().getData() == 15) {
 			if (relative.getType().equals(Material.CROPS) 
 			 || relative.getType().equals(Material.POTATO) 
 			 || relative.getType().equals(Material.CARROT) 

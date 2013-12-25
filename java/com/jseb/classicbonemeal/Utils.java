@@ -12,6 +12,7 @@ import org.bukkit.TreeType;
 import org.bukkit.TreeSpecies;
 import org.bukkit.World;
 
+import java.util.Random;
 
 public class Utils {
 	/* growCrop(Block block)
@@ -44,11 +45,14 @@ public class Utils {
 		TreeSpecies species = tree.getSpecies();
 
 		TreeType type = null;
-		if (species.equals(TreeSpecies.BIRCH)) type = TreeType.BIRCH;
-		else if (species.equals(TreeSpecies.JUNGLE)) return generateJungleTree(block);
-		else if (species.equals(TreeSpecies.REDWOOD)) type = TreeType.REDWOOD;
-		else type = (Math.random() < ClassicBonemeal.mega_tree_prob) ? TreeType.BIG_TREE : TreeType.TREE;
-		
+		System.out.println(species);
+		if (species.equals(TreeSpecies.BIRCH)) type = (new Random().nextDouble() < ClassicBonemeal.mega_tree_prob) ? TreeType.TALL_BIRCH : TreeType.BIRCH;
+		else if (species.equals(TreeSpecies.ACACIA)) type = TreeType.ACACIA;
+		else if (species.equals(TreeSpecies.DARK_OAK)) type = TreeType.DARK_OAK;
+		else if (species.equals(TreeSpecies.JUNGLE)) return generateLargeTree(block, TreeType.SMALL_JUNGLE, TreeType.JUNGLE);
+		else if (species.equals(TreeSpecies.REDWOOD)) return generateLargeTree(block, (new Random().nextDouble() < ClassicBonemeal.mega_tree_prob) ? TreeType.TALL_REDWOOD : TreeType.REDWOOD, TreeType.MEGA_REDWOOD);
+		else if (species.equals(TreeSpecies.GENERIC))  type = (new Random().nextDouble() < ClassicBonemeal.mega_tree_prob) ? TreeType.BIG_TREE : TreeType.TREE;
+	
 		block.setType(Material.AIR);
 		boolean used = block.getWorld().generateTree(block.getLocation(), type);
 
@@ -78,20 +82,22 @@ public class Utils {
 		return false;
 	}
 
-	/* generateJungleTree(Block block)
-	 * this method will generate one of those massive jungle trees
+	/* generateLargeTree(Block block, TreeType typeSmall, TreeType typeLarge)
+	 * this method will generate one of those massive trees
 	 *
 	 * block - the location of the block that contains one of the saplings
+	 * typeSmall - the type of tree to be grown if it can't find a group of four
+	 * typeLarge - the type of tree to be grown if it can find a group of four
 	 * returns the success of the operation.
 	 */
-	public static boolean generateJungleTree(Block block) {
+	public static boolean generateLargeTree(Block block, TreeType typeSmall, TreeType typeLarge) {
 		// backup failure data
 		int typeid = block.getTypeId();
 		byte data = block.getData();
 
 		Block [] group = getFourGroup(block);
 		Block grow_location = (group == null) ? block : getNorthWestBlock(group[0], group[1], group[2], group[3]);
-		TreeType type = (group == null) ? TreeType.SMALL_JUNGLE : TreeType.JUNGLE;
+		TreeType type = (group == null) ? typeSmall : typeLarge;
 
 		if (group == null) block.setType(Material.AIR);
 		else for (Block mBlock : group) mBlock.setType(Material.AIR);

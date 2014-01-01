@@ -45,13 +45,14 @@ public class Utils {
 		TreeSpecies species = tree.getSpecies();
 
 		TreeType type = null;
-		System.out.println(species);
+
 		if (species.equals(TreeSpecies.BIRCH)) type = (new Random().nextDouble() < ClassicBonemeal.mega_tree_prob) ? TreeType.TALL_BIRCH : TreeType.BIRCH;
 		else if (species.equals(TreeSpecies.ACACIA)) type = TreeType.ACACIA;
 		else if (species.equals(TreeSpecies.DARK_OAK)) type = TreeType.DARK_OAK;
 		else if (species.equals(TreeSpecies.JUNGLE)) return generateLargeTree(block, TreeType.SMALL_JUNGLE, TreeType.JUNGLE);
 		else if (species.equals(TreeSpecies.REDWOOD)) return generateLargeTree(block, (new Random().nextDouble() < ClassicBonemeal.mega_tree_prob) ? TreeType.TALL_REDWOOD : TreeType.REDWOOD, TreeType.MEGA_REDWOOD);
 		else if (species.equals(TreeSpecies.GENERIC))  type = (new Random().nextDouble() < ClassicBonemeal.mega_tree_prob) ? TreeType.BIG_TREE : TreeType.TREE;
+		else return false;
 	
 		block.setType(Material.AIR);
 		boolean used = block.getWorld().generateTree(block.getLocation(), type);
